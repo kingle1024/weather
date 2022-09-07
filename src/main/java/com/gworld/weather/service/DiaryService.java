@@ -3,7 +3,6 @@ package com.gworld.weather.service;
 import com.gworld.weather.WeatherApplication;
 import com.gworld.weather.entity.DateWeather;
 import com.gworld.weather.entity.Diary;
-import com.gworld.weather.error.InvalidDate;
 import com.gworld.weather.repository.DateWeatherRepository;
 import com.gworld.weather.repository.DiaryReository;
 import lombok.RequiredArgsConstructor;
@@ -129,9 +128,9 @@ public class DiaryService {
     }
     public List<Diary> readDiary(LocalDate date) {
         logger.debug("read Diary");
-        if(date.isAfter(LocalDate.ofYearDay(3050, 1))){
-            throw new InvalidDate();
-        }
+//        if(date.isAfter(LocalDate.ofYearDay(3050, 1))){
+//            throw new InvalidDate();
+//        }
         return diaryReository.findAllByDate(date);
     }
 
