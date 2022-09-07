@@ -2,6 +2,8 @@ package com.gworld.weather.controller;
 
 import com.gworld.weather.entity.Diary;
 import com.gworld.weather.service.DiaryService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +19,13 @@ public class DiaryController {
     }
 
     @PostMapping("/create/diary")
+    @ApiOperation(value="다이어리 생성 API", notes = "다이어리 생성 API의 설명은...")
     void createDiagry(
-            @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
+            @ApiParam(value="조회할 기간의 마지막날", example = "2020-02-02")
+            LocalDate date,
             @RequestBody String text){
-        System.out.println(date +" " + text);
+
             diaryService.createDiagry(date, text);
     }
     @GetMapping("/read/diary")
