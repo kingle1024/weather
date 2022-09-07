@@ -2,9 +2,8 @@ package com.gworld.weather;
 
 import com.gworld.weather.repository.MemoRepository;
 import com.gworld.weather.entity.Memo;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional // 실제 DB에 값이 저장되지 않도록 함
-@RequiredArgsConstructor
-//@ExtendWith(MockitoExtension.class)
 public class MemoRepositoryTest {
-    @Mock
-    private final MemoRepository memoRepository = null;
+    @Autowired
+    MemoRepository memoRepository;
 
     @Test
     void insertMemoTest(){
