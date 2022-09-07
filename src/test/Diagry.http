@@ -1,8 +1,8 @@
 ### Send POST request with json body
-POST https://localhost:8080/
-Content-Type: application/json
-
-{
-  "id": 999,
-  "value": "content"
-}
+POST http://localhost:8080/create/diary
+#Content-Type: application/json
+#
+#{
+#  "id": 999,
+#  "value": "content"
+#}
