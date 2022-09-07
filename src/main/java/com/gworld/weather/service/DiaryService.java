@@ -1,5 +1,6 @@
 package com.gworld.weather.service;
 
+import com.gworld.weather.WeatherApplication;
 import com.gworld.weather.entity.DateWeather;
 import com.gworld.weather.entity.Diary;
 import com.gworld.weather.repository.DateWeatherRepository;
@@ -9,6 +10,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -33,10 +36,13 @@ public class DiaryService {
     @Value("${openweathermap.key}")
     private String apiKey;
 
+    private static final Logger logger = LoggerFactory.getLogger(WeatherApplication.class);
+
     @Transactional
     @Scheduled(cron = "0 0 1 * * *")
     public void saveWeatherDate(){
         dateWeatherRepository.save(getWeatherFromApi());
+        logger.info("날씨를 성공적으로 가져왔습니다.");
     }
     private DateWeather getWeatherFromApi(){
         String weatherData = getWeatherString();
@@ -52,6 +58,7 @@ public class DiaryService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void createDiagry(LocalDate date, String text){
+        logger.info("started to create diary");
         DateWeather dateWeather = getDateWeather(date);
 
         // 우리 디비에 저장하기
@@ -60,7 +67,7 @@ public class DiaryService {
         nowDiary.setText(text);
         nowDiary.setDate(date);
         diaryReository.save(nowDiary);
-
+        logger.info("end to create diary");
     }
     private String getWeatherString(){
         String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=" + apiKey;
@@ -120,6 +127,7 @@ public class DiaryService {
         }
     }
     public List<Diary> readDiary(LocalDate date) {
+        logger.debug("read Diary");
         return diaryReository.findAllByDate(date);
     }
 
