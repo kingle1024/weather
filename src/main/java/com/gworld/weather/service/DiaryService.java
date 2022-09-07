@@ -9,6 +9,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,12 +22,14 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class DiaryService {
     private final DiaryReository diaryReository;
     @Value("${openweathermap.key}")
     private String apiKey;
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void createDiagry(LocalDate date, String text){
         // open weather map 에서 데이터 받아오기
         String weatherData = getWeatherString();
